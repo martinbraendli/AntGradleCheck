@@ -1,0 +1,51 @@
+<project>
+    <property name="gradle.wrapper.executable" location="../gradlew.bat"/>
+
+    <!-- Macro def, gives us an ant 'gradle' task-->
+    <macrodef name="gradle">
+        <attribute name="task"/>
+        <sequential>
+            <exec executable="${gradle.wrapper.executable}"
+                  dir="../"
+                  failonerror="true">
+                <arg value="@{task}"/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="../src/main/java" destdir="build/classes"/>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/AntGradleCheck.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="ch.probyte.antgradlecheck.Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="cleanCompileJar" depends="clean, compile, jar"/>
+
+    <target name="gradle_cleanCompileJar">
+        <gradle task="clean"/>
+        <gradle task="compileJava"/>
+        <gradle task="jar"/>
+    </target>
+
+    <target name="compareJars">
+        <echo message="TODO"/>
+    </target>
+
+    <target name="doAll"
+            description="Alle Tasks ausführen"
+            depends="clean, compile, jar, gradle_cleanCompileJar, compareJars"/>
+
+</project>

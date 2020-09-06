@@ -1,0 +1,30 @@
+import ch.probyte.antgradlecheck.ComparePlugin
+
+plugins {
+    id 'java-library'
+}
+
+apply plugin: ComparePlugin
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'ch.probyte.antgradlecheck.Main'
+    }
+}
+
+ComparePlugin {
+    targetFileAnt file('ant/build/jar/AntGradleCheck.jar')
+    targetFileGradle file('build/libs/AntGradleCheck.jar')
+
+}
+
+compareTask.dependsOn jar
+
+// Import Ant build and prefix all task names with 'ant_'.
+ant.importBuild('ant/build.xml') { antTaskName ->
+    "ant_${antTaskName}".toString()
+}
+
+task doAll {
+    dependsOn clean, compileJava, jar, ant_clean, ant_compile, ant_jar, ComparePlugin.TASK_ID
+}

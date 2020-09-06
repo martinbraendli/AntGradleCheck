@@ -1,0 +1,64 @@
+= Idee
+
+== Tasks
+
+* clean - compile - jar "cleanCompileJar"
+* anderen Build triggern
+* Output vergleichen
+
+=== Gradle
+
+==== Gradle Build
+
+Task `cleanCompileJar`
+
+1. clean
+2. compileJava
+3. jar
+
+Output: `build/libs/AntGradleCheck.jar`
+
+==== ANT Build aus Gradle
+
+Task `ant_cleanCompileJar`
+
+==== Artefakte vergleichen
+
+Task `compareJars`
+
+==== alle Tasks
+
+Task `doAll`
+
+=== ANT
+
+==== ANT Build
+
+Task `cleanCompileJar`
+
+1. clean
+2. compile
+3. jar
+
+Output: `ant/jar/AntGradleCheck.jar`
+
+==== Gradle Build aus ANT
+
+Task `gradle_cleanCompileJar`
+
+==== Artefakte vergleichen
+
+Task `compareJars`
+
+==== alle Tasks
+
+Task `doAll`
+
+
+
+
+
+
+
+
+diff -y <(unzip -l ant/build/jar/AntGradleCheck.jar) <(unzip -l build/libs/AntGradleCheck.jar)
